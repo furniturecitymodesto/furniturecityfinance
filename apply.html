@@ -40,7 +40,7 @@
         }
     </style>
 
-    <!-- Uplift Loader Script -->
+    <!-- Uplift Loader Script (PROD) -->
     <script>
     (function (u, p, l, i, f, t, o, b, j) { 
         u['UpLiftPlatformObject'] = f; 
@@ -62,6 +62,7 @@
     <script>
         function initPayMonthly() {
           window.console.log("Initializing Uplift Payments...");
+          if (!window.Uplift || !window.Uplift.Payments) return;
           window.Uplift.Payments.init({
             locale: "en-US",
             currency: "USD",
@@ -72,8 +73,11 @@
 
         window.upReady = function() {
             initPayMonthly();
-            window.Uplift.Payments.load();
-            document.querySelector("[data-up-prequal]").style.display = "block";
+            if (window.Uplift && window.Uplift.Payments) {
+                window.Uplift.Payments.load();
+            }
+            // we are NOT hiding/showing the element anymore –
+            // it is always visible now
         }
     </script>
 
@@ -84,7 +88,8 @@
     <h1>Apply for Financing</h1>
     <p>Get pre-qualified with no impact to your credit score.</p>
 
-    <div data-up-prequal style="display:none;">
+    <!-- Always visible trigger for Uplift pre-qual modal -->
+    <div data-up-prequal>
         <div class="finance-btn">Check Monthly Payments</div>
     </div>
 </div>
